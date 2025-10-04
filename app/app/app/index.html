@@ -1,0 +1,105 @@
+<!doctype html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<title>Nova Play — EverHart Labs</title>
+
+<style>
+
+  body{margin:0;background:#0b0b0d;color:#fff;font-family:system-ui,Segoe UI,Arial}
+
+  header{padding:16px;border-bottom:1px solid #222}
+
+  .pink{color:#ff66cc}
+
+  .bar{display:flex;gap:12px;align-items:center}
+
+  button{background:#ff66cc;border:0;color:#0b0b0d;padding:8px 12px;border-radius:8px;cursor:pointer}
+
+  main{padding:16px}
+
+  .card{background:#131318;border:1px solid #23232b;border-radius:12px;padding:16px;margin-top:12px}
+
+  .row{display:flex;gap:12px;align-items:center}
+
+  .tag{padding:6px 10px;border-radius:999px;background:#1c1c24;border:1px solid #2b2b33}
+
+  .small{opacity:.9;font-size:12px}
+
+</style>
+
+</head>
+
+<body>
+
+  <header class="bar">
+
+    <div><strong class="pink">Nova Play</strong> — EverHart Labs</div>
+
+    <div class="tag small">F8: Speak (PTT)</div>
+
+    <div class="tag small">F9: Toggle Always-on-top</div>
+
+  </header>
+
+  <main>
+
+    <div class="row">
+
+      <label>Mode:</label>
+
+      <select id="mode">
+
+        <option value="assist">Assist</option>
+
+        <option value="follow">Follow</option>
+
+        <option value="vibe">Vibe</option>
+
+      </select>
+
+      <button onclick="ask()">Get Suggestion</button>
+
+    </div>
+
+    <div id="out" class="card small">Ready.</div>
+
+
+
+    <div class="card small">
+
+      <div class="row">
+
+        <button onclick="speakOut()">🔊 Speak Suggestion</button>
+
+        <button onclick="pttToggle()">🎙️ Push-to-Talk</button>
+
+        <span id="ptt" class="tag small">PTT: off</span>
+
+      </div>
+
+      <div id="heard" class="small" style="margin-top:8px;">Heard: —</div>
+
+    </div>
+
+  </main>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+
+async function ask(){
+
+  const mode = document.getElementById('mode').value
+
+  try{
+
+    const r = await axios.post('http://localhost:5055/plan', {mode})
+
+    document.getElementById('out').innerText = `[
