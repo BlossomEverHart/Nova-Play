@@ -1,69 +1,33 @@
+# ──────────────────────────────────────────────
+# EverHart Labs – Nova Play Backend (FastAPI)
+# Version: MVP Prototype
+# Author: Blossom EverHart
+# ──────────────────────────────────────────────
+
 from fastapi import FastAPI
-
 from pydantic import BaseModel
+from gtts import gTTS
+import os
 
-from typing import Optional
+app = FastAPI(title="Nova Play – EverHart Labs")
 
-import random
-
-
-
-app = FastAPI(title="Nova Play Local API")
-
-
-
-class Sense(BaseModel):
-
-    mode: str = "assist"  # assist|follow|vibe
-
-    context: Optional[str] = None
-
-
-
-TIPS = {
-
-    "assist": [
-
-        "Rotate right to high ground.",
-
-        "Heal now; you’re below 35%.",
-
-        "Zone closes in 30s — move early."
-
-    ],
-
-    "follow": [
-
-        "On your six — covering you.",
-
-        "I’ll ping loot ahead.",
-
-        "Sticking close — call the push."
-
-    ],
-
-    "vibe": [
-
-        "You got this — breathe and flow.",
-
-        "Victory playlist queued in my head 😉",
-
-        "Let’s make this round cozy and smart."
-
-    ]
-
-}
-
-
+class ModeRequest(BaseModel):
+    mode: str
 
 @app.post("/plan")
+def plan_mode(request: ModeRequest):
+    mode = request.mode.lower()
+    if mode == "assist":
+        message = "I’m here to help you win this round, Blossom!"
+    elif mode == "follow":
+        message = "I’m analyzing your moves and syncing strategies."
+    elif mode == "vibe":
+        message = "Let’s relax, focus, and enjoy the game together."
+    else:
+        message = "Mode not recognized, but I’m still with you!"
 
-def plan(s: Sense):
+    tts = gTTS(text=message, lang='en')
+    tts.save("response.mp3")
 
-    mode = (s.mode or "assist").lower()
-
-    tips = TIPS.get(mode, TIPS["assist"])
-
-
-    return {"mode": mode, "suggestion": random.choice(tips)}
+    return {"status": "success", "message": message}
 
