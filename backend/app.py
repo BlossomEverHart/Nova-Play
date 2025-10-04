@@ -10,7 +10,14 @@ from gtts import gTTS
 import os
 
 app = FastAPI(title="Nova Play – EverHart Labs")
+from fastapi.middleware.cors import CORSMiddleware
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],   # Dev-only (accepts requests from any source)
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 class ModeRequest(BaseModel):
     mode: str
 
