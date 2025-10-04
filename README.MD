@@ -73,6 +73,31 @@ No game memory access
 No input spoofing
 Explicit mic consent
 
+---
+
+## 2) `LICENSE`
+
+MIT License — © 2025 EverHart Labs (Blossom EverHart)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+
+of this software and associated documentation files (the “Software”), to deal
+
+in the Software without restriction…
+
+
+---
+
+## 3) `CONTRIBUTING.md`
+```md
+# Contributing
+
+Thanks for your interest in Nova Play (EverHart Labs)!
+
+- Use issues for bugs/ideas.
+- Keep PRs small and focused.
+- Respect TOS: no game memory injection or input spoofing.
+- Be kind. This is a cozy space 💖
 
 
 
