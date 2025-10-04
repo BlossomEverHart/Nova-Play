@@ -1,16 +1,14 @@
-# ──────────────────────────────────────────────
 # EverHart Labs – Nova Play Backend (FastAPI)
 # Version: MVP Prototype
 # Author: Blossom EverHart
-# ──────────────────────────────────────────────
 
 from fastapi import FastAPI
 from pydantic import BaseModel
 from gtts import gTTS
 import os
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Nova Play – EverHart Labs")
-from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(
     CORSMiddleware,
@@ -18,6 +16,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 class ModeRequest(BaseModel):
     mode: str
 
@@ -31,10 +30,6 @@ def plan_mode(request: ModeRequest):
     elif mode == "vibe":
         message = "Let’s relax, focus, and enjoy the game together."
     else:
-        message = "Mode not recognized, but I’m still with you!"
-
-    tts = gTTS(text=message, lang='en')
-    tts.save("response.mp3")
+        message = "Mode not recognized. Try assist, follow, or vibe."
 
     return {"status": "success", "message": message}
-
